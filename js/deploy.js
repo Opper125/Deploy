@@ -313,21 +313,30 @@ async function startDeploy() {
     }
 
     // Actual deployment: Save project data
-    await saveDeployment();
+    // startDeploy function ထဲက Deploy Success section ကို ဒီလိုပြင်ပါ
 
-    // Show success after a short delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+// Show success after a short delay
+await new Promise(resolve => setTimeout(resolve, 800));
 
-    progressEl.style.display = 'none';
-    successEl.style.display = 'block';
+progressEl.style.display = 'none';
+successEl.style.display = 'block';
 
-    // Set deployed URL
-    const deployedUrl = document.getElementById('deployedUrl');
-    if (deployedUrl) {
-        const url = `https://${deploymentData.domain}`;
-        deployedUrl.href = url;
-        deployedUrl.textContent = url;
+// Set deployed URL - ⬇️ ဒီ section ကို ပြင်ပါ
+const deployedUrl = document.getElementById('deployedUrl');
+if (deployedUrl) {
+    // Use the view.html preview URL instead of direct domain
+    const previewUrl = `${window.location.origin}/view.html?id=${deploymentData.projectId || 'latest'}&domain=${encodeURIComponent(deploymentData.domain)}`;
+    deployedUrl.href = previewUrl;
+    deployedUrl.textContent = `https://${deploymentData.domain}`;
+    
+    // Store the preview URL in project
+    const projects = Utils.loadLocal(`projects_${currentUser.id}`) || [];
+    const project = projects.find(p => p.domain === deploymentData.domain);
+    if (project) {
+        project.previewUrl = previewUrl;
+        Utils.saveLocal(`projects_${currentUser.id}`, projects);
     }
+}
 
     // Update dashboard data
     loadDashboardData();
@@ -345,11 +354,13 @@ async function saveDeployment() {
         id: Utils.generateId(),
         name: deploymentData.projectName,
         domain: deploymentData.domain,
+        previewUrl: `${window.location.origin}/view.html?id=${Utils.generateId()}&domain=${encodeURIComponent(deploymentData.domain)}`,
         repository: {
             name: deploymentData.repoName,
             fullName: deploymentData.repoFullName,
             url: deploymentData.repoUrl,
             branch: deploymentData.branch
+           
         },
         framework: deploymentData.framework,
         config: {
@@ -637,6 +648,9 @@ function createProjectCard(project) {
                 </button>
                 <button class="btn btn-ghost btn-sm" style="color:var(--error);" onclick="event.stopPropagation(); deleteProject('${project.id}')">
                     <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); viewDeployedSite('${project.id}', '${project.domain}')">
+                    <i class="fas fa-external-link-alt"></i> Visit
                 </button>
             </div>
         </div>
@@ -940,7 +954,8 @@ function viewProjectDetail(projectId) {
             </div>
 
             <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="window.open('https://${project.domain}', '_blank')">
+                // viewProjectDetail function ထဲမှာ Visit Website button ကို ဒီလိုပြင်ပါ
+                <button class="btn btn-primary" onclick="viewDeployedSite('${project.id}', '${project.domain}')">
                     <i class="fas fa-external-link-alt"></i> Visit Website
                 </button>
                 <button class="btn btn-outline" onclick="closeProjectModal(); redeployProject('${project.id}')">
@@ -1101,4 +1116,12 @@ function closeProjectModal() {
 // ============================================
 function getRandomDelay(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// ============================================
+// View Deployed Site
+// ============================================
+function viewDeployedSite(projectId, domain) {
+    const previewUrl = `${window.location.origin}/view.html?id=${projectId}&domain=${encodeURIComponent(domain)}`;
+    window.open(previewUrl, '_blank');
 }
