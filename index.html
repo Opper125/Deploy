@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeployHub - Free Website Deployment Platform</title>
+    <meta name="description" content="Deploy your websites for free with custom domains, GitHub integration, and enterprise security.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+
+    <!-- ========== LOADING SCREEN ========== -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-rocket">🚀</div>
+            <div class="loader-bar"><div class="loader-fill"></div></div>
+            <p>Initializing DeployHub...</p>
+        </div>
+    </div>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="goHome()">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <span>DeployHub</span>
+            </div>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#" class="nav-link" onclick="showDocs()">Docs</a>
+            </div>
+
+            <div class="nav-auth" id="navAuth">
+                <button class="btn btn-ghost" onclick="showLogin()">Log In</button>
+                <button class="btn btn-primary" onclick="showRegister()">
+                    <i class="fas fa-rocket"></i> Sign Up Free
+                </button>
+            </div>
+
+            <div class="nav-user" id="navUser" style="display:none;">
+                <button class="btn btn-ghost" onclick="goToDashboard()">
+                    <i class="fas fa-th-large"></i> Dashboard
+                </button>
+                <div class="nav-avatar" id="navAvatar" onclick="toggleUserMenu()">U</div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="dropdown-header">
+                        <span id="dropdownName">User</span>
+                        <small id="dropdownEmail">user@email.com</small>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a onclick="showDashSection('settings')"><i class="fas fa-cog"></i> Settings</a>
+                    <a onclick="showDashSection('security')"><i class="fas fa-shield-alt"></i> Security</a>
+                    <div class="dropdown-divider"></div>
+                    <a onclick="logout()" class="dropdown-danger"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                </div>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" onclick="toggleMobileNav()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========== LANDING PAGE ========== -->
+    <section id="landingPage">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-bg">
+                <div class="gradient-orb orb-1"></div>
+                <div class="gradient-orb orb-2"></div>
+                <div class="gradient-orb orb-3"></div>
+                <div class="grid-bg"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    100% Free · No Limits · Custom Domains
+                </div>
+                <h1>
+                    Deploy Your Website
+                    <br>
+                    <span class="gradient-text">With Custom Domain</span>
+                </h1>
+                <p class="hero-desc">
+                    The easiest way to deploy websites with your own custom domain. 
+                    Import from GitHub, configure security, and go live in seconds. 
+                    Free hosting with enterprise-grade protection.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-xl" onclick="showRegister()">
+                        <i class="fas fa-rocket"></i> Start Deploying — It's Free
+                    </button>
+                    <button class="btn btn-outline btn-xl" onclick="scrollToFeatures()">
+                        <i class="fas fa-arrow-down"></i> Learn More
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">∞</div>
+                        <div class="hero-stat-label">Unlimited Projects</div>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">100%</div>
+                        <div class="hero-stat-label">Free Forever</div>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">SSL</div>
+                        <div class="hero-stat-label">Auto HTTPS</div>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">24/7</div>
+                        <div class="hero-stat-label">Protection</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="terminal-title">deployhub deploy</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line" id="termLine1">
+                            <span class="t-green">▶</span> Connecting to GitHub...
+                        </div>
+                        <div class="terminal-line" id="termLine2" style="opacity:0">
+                            <span class="t-green">✓</span> Repository imported: <span class="t-cyan">my-website</span>
+                        </div>
+                        <div class="terminal-line" id="termLine3" style="opacity:0">
+                            <span class="t-green">▶</span> Setting domain: <span class="t-yellow">gameshop.com</span>
+                        </div>
+                        <div class="terminal-line" id="termLine4" style="opacity:0">
+                            <span class="t-green">✓</span> Domain available! <span class="t-green">✓</span>
+                        </div>
+                        <div class="terminal-line" id="termLine5" style="opacity:0">
+                            <span class="t-green">✓</span> SSL certificate provisioned
+                        </div>
+                        <div class="terminal-line" id="termLine6" style="opacity:0">
+                            <span class="t-green">✓</span> Security protections enabled
+                        </div>
+                        <div class="terminal-line" id="termLine7" style="opacity:0">
+                            <span class="t-green">🚀</span> <span class="t-green">Deployed!</span> → <span class="t-cyan">https://gameshop.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Features</div>
+                    <h2>Everything You Need to<br><span class="gradient-text">Deploy & Protect</span></h2>
+                    <p>Powerful tools for deploying, managing, and securing your websites</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrap">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub Import</h3>
+                        <p>Connect your GitHub account and import any repository. Select files, choose branches, and deploy instantly.</p>
+                    </div>
+                    <div class="feature-card featured">
+                        <div class="feature-badge">Popular</div>
+                        <div class="feature-icon-wrap">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Custom Domains</h3>
+                        <p>Use your own domain name - no .vercel.app or .netlify.app suffix. Pure custom domains with auto-availability checking.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-wrap">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Enterprise Security</h3>
+                        <p>Source code protection, console blocking, anti-inspect, DDoS protection, and security headers - all automatic.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-wrap">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>VPS Integration</h3>
+                        <p>Connect your own VPS server for maximum performance. Auto-configure Nginx, SSL, and firewall.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-wrap">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>Free SSL/HTTPS</h3>
+                        <p>Every deployment gets automatic SSL certificate. Your site is always served over secure HTTPS.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-wrap">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <h3>Zero Limits</h3>
+                        <p>No bandwidth limits, no storage limits, no deployment limits. Everything is completely free, forever.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="how-section" id="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Simple Process</div>
+                    <h2>Deploy in <span class="gradient-text">3 Easy Steps</span></h2>
+                </div>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <div class="step-icon"><i class="fab fa-github"></i></div>
+                        <h3>Import from GitHub</h3>
+                        <p>Connect your GitHub account and select the repository you want to deploy.</p>
+                    </div>
+                    <div class="step-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <div class="step-icon"><i class="fas fa-cogs"></i></div>
+                        <h3>Configure & Set Domain</h3>
+                        <p>Set your custom domain, configure security settings, and customize your deployment.</p>
+                    </div>
+                    <div class="step-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <div class="step-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>Deploy & Go Live</h3>
+                        <p>Hit deploy and your website is live with full security protection in seconds.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <div class="container">
+                <div class="cta-card">
+                    <div class="cta-bg">
+                        <div class="gradient-orb orb-1"></div>
+                        <div class="gradient-orb orb-2"></div>
+                    </div>
+                    <h2>Ready to Deploy Your Website?</h2>
+                    <p>Join thousands of developers who trust DeployHub for their deployments.</p>
+                    <button class="btn btn-white btn-xl" onclick="showRegister()">
+                        <i class="fas fa-rocket"></i> Get Started Free
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="nav-logo">
+                            <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+                            <span>DeployHub</span>
+                        </div>
+                        <p>Free website deployment platform with custom domains and enterprise security.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#">Pricing</a>
+                        <a href="#">Changelog</a>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Resources</h4>
+                        <a href="#">Documentation</a>
+                        <a href="#">API Reference</a>
+                        <a href="#">Status</a>
+                        <a href="#">Support</a>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Company</h4>
+                        <a href="#">About</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 DeployHub. All rights reserved.</p>
+                    <div class="footer-socials">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- ========== AUTH MODALS ========== -->
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-overlay" onclick="closeModals()"></div>
+        <div class="modal-content auth-modal">
+            <button class="modal-close" onclick="closeModals()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-header">
+                <div class="auth-logo">🚀</div>
+                <h2>Welcome Back</h2>
+                <p>Log in to your DeployHub account</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <div class="password-input">
+                        <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="loginError" class="form-error" style="display:none;"></div>
+                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Log In
+                </button>
+            </form>
+            <div class="auth-divider"><span>OR</span></div>
+            <button class="btn btn-github btn-full" onclick="loginWithGitHub()">
+                <i class="fab fa-github"></i> Continue with GitHub
+            </button>
+            <p class="auth-switch">
+                Don't have an account? 
+                <a href="#" onclick="showRegister(); return false;">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-overlay" onclick="closeModals()"></div>
+        <div class="modal-content auth-modal">
+            <button class="modal-close" onclick="closeModals()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-header">
+                <div class="auth-logo">🚀</div>
+                <h2>Create Your Account</h2>
+                <p>Start deploying websites for free</p>
+            </div>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="regName" class="form-input" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <div class="password-input">
+                        <input type="password" id="regPassword" class="form-input" placeholder="Min 8 characters" required minlength="8">
+                        <button type="button" class="password-toggle" onclick="togglePassword('regPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                        <span id="strengthText"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <div class="password-input">
+                        <input type="password" id="regConfirmPassword" class="form-input" placeholder="Confirm your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('regConfirmPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="regError" class="form-error" style="display:none;"></div>
+                <button type="submit" class="btn btn-primary btn-full" id="regBtn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            <div class="auth-divider"><span>OR</span></div>
+            <button class="btn btn-github btn-full" onclick="loginWithGitHub()">
+                <i class="fab fa-github"></i> Sign Up with GitHub
+            </button>
+            <p class="auth-switch">
+                Already have an account? 
+                <a href="#" onclick="showLogin(); return false;">Log In</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ========== DASHBOARD ========== -->
+    <section id="dashboard" style="display:none;">
+        <div class="dashboard-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-logo" onclick="goHome()">
+                        <i class="fas fa-rocket"></i>
+                        <span>DeployHub</span>
+                    </div>
+                    <button class="sidebar-close" onclick="toggleSidebar()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-section-label">Main</div>
+                    <a class="sidebar-link active" data-section="overview" onclick="showDashSection('overview')">
+                        <i class="fas fa-th-large"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a class="sidebar-link" data-section="projects" onclick="showDashSection('projects')">
+                        <i class="fas fa-folder"></i>
+                        <span>Projects</span>
+                        <span class="sidebar-badge" id="projectsBadge">0</span>
+                    </a>
+                    <a class="sidebar-link highlight" data-section="newDeploy" onclick="showDashSection('newDeploy')">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Deploy</span>
+                    </a>
+
+                    <div class="nav-section-label">Management</div>
+                    <a class="sidebar-link" data-section="domains" onclick="showDashSection('domains')">
+                        <i class="fas fa-globe"></i>
+                        <span>Domains</span>
+                    </a>
+                    <a class="sidebar-link" data-section="security" onclick="showDashSection('security')">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security</span>
+                    </a>
+                    <a class="sidebar-link" data-section="vps" onclick="showDashSection('vps')">
+                        <i class="fas fa-server"></i>
+                        <span>VPS</span>
+                    </a>
+                    <a class="sidebar-link" data-section="analytics" onclick="showDashSection('analytics')">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+
+                    <div class="nav-section-label">Account</div>
+                    <a class="sidebar-link" data-section="settings" onclick="showDashSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <div class="sidebar-user">
+                        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+                        <div class="sidebar-user-info">
+                            <span class="sidebar-user-name" id="sidebarUserName">User</span>
+                            <span class="sidebar-user-plan">Free Plan · Unlimited</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Mobile Sidebar Toggle -->
+            <button class="sidebar-mobile-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Main Dashboard Content -->
+            <main class="dash-main">
+
+                <!-- ===== OVERVIEW SECTION ===== -->
+                <div class="dash-section" id="sec-overview">
+                    <div class="dash-header">
+                        <div>
+                            <h1>Dashboard</h1>
+                            <p class="dash-subtitle">Welcome back, <span id="welcomeName">User</span></p>
+                        </div>
+                        <button class="btn btn-primary" onclick="showDashSection('newDeploy')">
+                            <i class="fas fa-plus"></i> New Project
+                        </button>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span class="stat-card-label">Total Projects</span>
+                                <div class="stat-card-icon blue"><i class="fas fa-folder"></i></div>
+                            </div>
+                            <div class="stat-card-number" id="totalProjects">0</div>
+                            <div class="stat-card-change positive">
+                                <i class="fas fa-arrow-up"></i> Active
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span class="stat-card-label">Active Sites</span>
+                                <div class="stat-card-icon green"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <div class="stat-card-number" id="activeSites">0</div>
+                            <div class="stat-card-change positive">
+                                <i class="fas fa-globe"></i> Online
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span class="stat-card-label">Custom Domains</span>
+                                <div class="stat-card-icon purple"><i class="fas fa-globe"></i></div>
+                            </div>
+                            <div class="stat-card-number" id="totalDomains">0</div>
+                            <div class="stat-card-change">
+                                <i class="fas fa-lock"></i> SSL Active
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span class="stat-card-label">Total Deploys</span>
+                                <div class="stat-card-icon orange"><i class="fas fa-cloud-upload-alt"></i></div>
+                            </div>
+                            <div class="stat-card-number" id="totalDeploys">0</div>
+                            <div class="stat-card-change positive">
+                                <i class="fas fa-infinity"></i> Unlimited
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Projects -->
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <h2><i class="fas fa-clock"></i> Recent Projects</h2>
+                            <a class="view-all" onclick="showDashSection('projects')">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                        <div id="recentProjectsList" class="projects-list">
+                            <div class="empty-state">
+                                <div class="empty-icon">📁</div>
+                                <h3>No Projects Yet</h3>
+                                <p>Deploy your first website to get started</p>
+                                <button class="btn btn-primary" onclick="showDashSection('newDeploy')">
+                                    <i class="fas fa-plus"></i> Create Your First Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                        <div class="actions-grid">
+                            <div class="action-card" onclick="showDashSection('newDeploy')">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>New Deploy</span>
+                            </div>
+                            <div class="action-card" onclick="showDashSection('domains')">
+                                <i class="fas fa-globe"></i>
+                                <span>Add Domain</span>
+                            </div>
+                            <div class="action-card" onclick="showDashSection('vps')">
+                                <i class="fas fa-server"></i>
+                                <span>Connect VPS</span>
+                            </div>
+                            <div class="action-card" onclick="showDashSection('security')">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Security</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PROJECTS SECTION ===== -->
+                <div class="dash-section" id="sec-projects" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>My Projects</h1>
+                            <p class="dash-subtitle">Manage all your deployed websites</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search projects..." id="searchProjects" oninput="filterProjects()">
+                            </div>
+                            <select class="filter-select" id="filterStatus" onchange="filterProjects()">
+                                <option value="all">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="paused">Paused</option>
+                                <option value="error">Error</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="showDashSection('newDeploy')">
+                                <i class="fas fa-plus"></i> New Project
+                            </button>
+                        </div>
+                    </div>
+                    <div id="projectsList" class="projects-grid">
+                        <!-- Projects will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- ===== NEW DEPLOY SECTION (WIZARD) ===== -->
+                <div class="dash-section" id="sec-newDeploy" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>Deploy New Project</h1>
+                            <p class="dash-subtitle">Import from GitHub and deploy with custom domain</p>
+                        </div>
+                    </div>
+
+                    <div class="deploy-wizard">
+                        <!-- Wizard Progress Steps -->
+                        <div class="wizard-steps">
+                            <div class="wizard-step active" data-step="1" id="wizStep1">
+                                <div class="step-circle">
+                                    <span class="step-num">1</span>
+                                    <i class="fas fa-check step-check"></i>
+                                </div>
+                                <span class="step-label">GitHub</span>
+                            </div>
+                            <div class="step-line" id="stepLine1"></div>
+                            <div class="wizard-step" data-step="2" id="wizStep2">
+                                <div class="step-circle">
+                                    <span class="step-num">2</span>
+                                    <i class="fas fa-check step-check"></i>
+                                </div>
+                                <span class="step-label">Repository</span>
+                            </div>
+                            <div class="step-line" id="stepLine2"></div>
+                            <div class="wizard-step" data-step="3" id="wizStep3">
+                                <div class="step-circle">
+                                    <span class="step-num">3</span>
+                                    <i class="fas fa-check step-check"></i>
+                                </div>
+                                <span class="step-label">Configure</span>
+                            </div>
+                            <div class="step-line" id="stepLine3"></div>
+                            <div class="wizard-step" data-step="4" id="wizStep4">
+                                <div class="step-circle">
+                                    <span class="step-num">4</span>
+                                    <i class="fas fa-check step-check"></i>
+                                </div>
+                                <span class="step-label">Domain</span>
+                            </div>
+                            <div class="step-line" id="stepLine4"></div>
+                            <div class="wizard-step" data-step="5" id="wizStep5">
+                                <div class="step-circle">
+                                    <span class="step-num">5</span>
+                                    <i class="fas fa-check step-check"></i>
+                                </div>
+                                <span class="step-label">Security</span>
+                            </div>
+                            <div class="step-line" id="stepLine5"></div>
+                            <div class="wizard-step" data-step="6" id="wizStep6">
+                                <div class="step-circle">
+                                    <span class="step-num">6</span>
+                                    <i class="fas fa-check step-check"></i>
+                                </div>
+                                <span class="step-label">Deploy</span>
+                            </div>
+                        </div>
+
+                        <!-- STEP 1: GitHub Connect -->
+                        <div class="wizard-panel" id="wizPanel1">
+                            <div class="wizard-card">
+                                <div class="wizard-card-header">
+                                    <div class="wizard-icon github-icon">
+                                        <i class="fab fa-github"></i>
+                                    </div>
+                                    <h2>Connect GitHub Account</h2>
+                                    <p>Import your repository files to deploy as a website</p>
+                                </div>
+
+                                <div id="githubNotConnected">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-key"></i> GitHub Personal Access Token</label>
+                                        <div class="password-input">
+                                            <input type="password" id="githubToken" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                                            <button type="button" class="password-toggle" onclick="togglePassword('githubToken', this)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-help">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Go to <strong>GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic) → Generate New Token</strong> with <code>repo</code> scope enabled.</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-github btn-lg btn-full" onclick="connectGitHub()" id="connectGHBtn">
+                                        <i class="fab fa-github"></i> Connect GitHub
+                                    </button>
+                                </div>
+
+                                <div id="githubConnected" style="display:none;">
+                                    <div class="github-profile">
+                                        <img id="ghAvatar" src="" alt="GitHub Avatar" class="gh-avatar">
+                                        <div class="gh-info">
+                                            <h3 id="ghDisplayName">-</h3>
+                                            <p id="ghUsername">@username</p>
+                                            <div class="gh-stats">
+                                                <span><i class="fas fa-book"></i> <span id="ghRepoCount">0</span> repos</span>
+                                                <span><i class="fas fa-users"></i> <span id="ghFollowers">0</span> followers</span>
+                                            </div>
+                                        </div>
+                                        <span class="status-badge success">
+                                            <i class="fas fa-check-circle"></i> Connected
+                                        </span>
+                                    </div>
+                                    <div class="wizard-actions">
+                                        <button class="btn btn-ghost" onclick="disconnectGitHub()">
+                                            <i class="fas fa-unlink"></i> Disconnect
+                                        </button>
+                                        <button class="btn btn-primary btn-lg" onclick="goToWizStep(2)">
+                                            Continue <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: Select Repository -->
+                        <div class="wizard-panel" id="wizPanel2" style="display:none;">
+                            <div class="wizard-card">
+                                <div class="wizard-card-header">
+                                    <div class="wizard-icon">
+                                        <i class="fas fa-code-branch"></i>
+                                    </div>
+                                    <h2>Select Repository</h2>
+                                    <p>Choose the repository you want to deploy</p>
+                                </div>
+
+                                <div class="repo-search">
+                                    <div class="search-box">
+                                        <i class="fas fa-search"></i>
+                                        <input type="text" placeholder="Search repositories..." id="searchRepos" oninput="filterRepos()">
+                                    </div>
+                                    <div class="repo-filter">
+                                        <select class="filter-select" id="repoTypeFilter" onchange="filterRepos()">
+                                            <option value="all">All</option>
+                                            <option value="public">Public</option>
+                                            <option value="private">Private</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="reposList" class="repos-list">
+                                    <div class="loading-state">
+                                        <div class="spinner"></div>
+                                        <p>Loading repositories...</p>
+                                    </div>
+                                </div>
+
+                                <div class="wizard-nav">
+                                    <button class="btn btn-ghost" onclick="goToWizStep(1)">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: Configure -->
+                        <div class="wizard-panel" id="wizPanel3" style="display:none;">
+                            <div class="wizard-card">
+                                <div class="wizard-card-header">
+                                    <div class="wizard-icon">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
+                                    <h2>Project Configuration</h2>
+                                    <p>Configure your project settings before deployment</p>
+                                </div>
+
+                                <div class="config-form">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-project-diagram"></i> Project Name *</label>
+                                            <input type="text" id="projectName" class="form-input" placeholder="my-awesome-website">
+                                        </div>
+                                        <div class="form-group">
+                                            <label><i class="fas fa-code-branch"></i> Branch</label>
+                                            <select id="branchSelect" class="form-input form-select">
+                                                <option value="main">main</option>
+                                                <option value="master">master</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-layer-group"></i> Framework</label>
+                                            <select id="frameworkSelect" class="form-input form-select">
+                                                <option value="static">Static HTML/CSS/JS</option>
+                                                <option value="react">React</option>
+                                                <option value="vue">Vue.js</option>
+                                                <option value="next">Next.js</option>
+                                                <option value="angular">Angular</option>
+                                                <option value="svelte">Svelte</option>
+                                                <option value="gatsby">Gatsby</option>
+                                                <option value="hugo">Hugo</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label><i class="fas fa-folder"></i> Root Directory</label>
+                                            <input type="text" id="rootDir" class="form-input" placeholder="./" value="./">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-terminal"></i> Build Command</label>
+                                            <input type="text" id="buildCmd" class="form-input" placeholder="npm run build (optional)">
+                                        </div>
+                                        <div class="form-group">
+                                            <label><i class="fas fa-folder-open"></i> Output Directory</label>
+                                            <input type="text" id="outputDir" class="form-input" placeholder="dist" value="./">
+                                        </div>
+                                    </div>
+
+                                    <!-- Environment Variables -->
+                                    <div class="env-section">
+                                        <div class="env-header">
+                                            <h3><i class="fas fa-key"></i> Environment Variables</h3>
+                                            <button class="btn btn-ghost btn-sm" onclick="addEnvVar()">
+                                                <i class="fas fa-plus"></i> Add Variable
+                                            </button>
+                                        </div>
+                                        <div id="envVarsList" class="env-vars-list">
+                                            <!-- Env vars will be added here dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wizard-nav">
+                                    <button class="btn btn-ghost" onclick="goToWizStep(2)">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-primary" onclick="goToWizStep(4)">
+                                        Continue <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 4: Domain -->
+                        <div class="wizard-panel" id="wizPanel4" style="display:none;">
+                            <div class="wizard-card">
+                                <div class="wizard-card-header">
+                                    <div class="wizard-icon">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <h2>Custom Domain Setup</h2>
+                                    <p>Set your own custom domain for this website</p>
+                                </div>
+
+                                <div class="domain-setup">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-globe"></i> Domain Name *</label>
+                                        <div class="domain-input-wrapper">
+                                            <input type="text" id="customDomain" class="form-input domain-input" 
+                                                   placeholder="example.com" 
+                                                   oninput="handleDomainInput(this.value)">
+                                            <div class="domain-checker" id="domainChecker">
+                                                <!-- Domain check status will show here -->
+                                            </div>
+                                        </div>
+                                        <div class="form-help">
+                                            <i class="fas fa-info-circle"></i>
+                                            Enter your desired domain (e.g., gameshop.com, myportfolio.com). 
+                                            We'll automatically check if it's available for hosting.
+                                        </div>
+                                    </div>
+
+                                    <!-- Domain Check Result -->
+                                    <div id="domainResult" class="domain-result" style="display:none;">
+                                        <!-- Result will appear here -->
+                                    </div>
+
+                                    <!-- DNS Configuration Info -->
+                                    <div id="dnsConfig" class="dns-config" style="display:none;">
+                                        <h3><i class="fas fa-network-wired"></i> DNS Configuration</h3>
+                                        <p>Add these DNS records to your domain registrar:</p>
+                                        <div class="dns-records">
+                                            <div class="dns-record">
+                                                <div class="dns-record-header">
+                                                    <span class="dns-type">A</span>
+                                                    <button class="btn btn-ghost btn-xs" onclick="copyDNS('a')">
+                                                        <i class="fas fa-copy"></i> Copy
+                                                    </button>
+                                                </div>
+                                                <div class="dns-record-body">
+                                                    <div><strong>Name:</strong> @</div>
+                                                    <div><strong>Value:</strong> <code id="dnsAValue">76.76.21.21</code></div>
+                                                    <div><strong>TTL:</strong> 3600</div>
+                                                </div>
+                                            </div>
+                                            <div class="dns-record">
+                                                <div class="dns-record-header">
+                                                    <span class="dns-type cname">CNAME</span>
+                                                    <button class="btn btn-ghost btn-xs" onclick="copyDNS('cname')">
+                                                        <i class="fas fa-copy"></i> Copy
+                                                    </button>
+                                                </div>
+                                                <div class="dns-record-body">
+                                                    <div><strong>Name:</strong> www</div>
+                                                    <div><strong>Value:</strong> <code id="dnsCnameValue">cname.deployhub.dev</code></div>
+                                                    <div><strong>TTL:</strong> 3600</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SSL Toggle -->
+                                    <div class="ssl-toggle">
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="autoSSL" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong><i class="fas fa-lock"></i> Auto SSL Certificate</strong>
+                                                <p>Automatically provision free Let's Encrypt SSL certificate</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="forceHTTPS" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong><i class="fas fa-shield-alt"></i> Force HTTPS</strong>
+                                                <p>Redirect all HTTP traffic to HTTPS</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="wwwRedirect" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong><i class="fas fa-exchange-alt"></i> WWW Redirect</strong>
+                                                <p>Redirect www.domain.com to domain.com</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wizard-nav">
+                                    <button class="btn btn-ghost" onclick="goToWizStep(3)">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-primary" onclick="goToWizStep(5)" id="domainNextBtn">
+                                        Continue <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 5: Security -->
+                        <div class="wizard-panel" id="wizPanel5" style="display:none;">
+                            <div class="wizard-card">
+                                <div class="wizard-card-header">
+                                    <div class="wizard-icon security-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h2>Security Protection</h2>
+                                    <p>Configure enterprise-grade security for your website</p>
+                                </div>
+
+                                <div class="security-options">
+                                    <div class="security-group">
+                                        <h3><i class="fas fa-code"></i> Code Protection</h3>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secSourceProtect" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Source Code Protection</strong>
+                                                <p>Obfuscate and protect HTML/CSS/JS source code from viewing</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secRightClick" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Right-Click Protection</strong>
+                                                <p>Disable right-click context menu to prevent "View Source"</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secCopyProtect" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Copy Protection</strong>
+                                                <p>Prevent text selection and content copying</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="security-group">
+                                        <h3><i class="fas fa-terminal"></i> DevTools Protection</h3>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secDevTools" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>DevTools / Inspect Element Blocker</strong>
+                                                <p>Block F12, Ctrl+Shift+I, and all DevTools shortcuts</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secConsole" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Console Protection</strong>
+                                                <p>Clear and disable browser console to prevent debugging</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secDebugger" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Anti-Debugger</strong>
+                                                <p>Detect and block JavaScript debugger attachment</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="security-group">
+                                        <h3><i class="fas fa-shield-virus"></i> Network Protection</h3>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secDDoS" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>DDoS Protection</strong>
+                                                <p>Rate limiting and distributed attack mitigation</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secHotlink" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Hotlink Protection</strong>
+                                                <p>Prevent other websites from embedding your resources</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secAPI" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>API Endpoint Protection</strong>
+                                                <p>Secure all API endpoints from unauthorized access</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="security-group">
+                                        <h3><i class="fas fa-heading"></i> Headers & Admin</h3>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secHeaders" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Security Headers</strong>
+                                                <p>HSTS, CSP, X-Frame-Options, X-Content-Type-Options</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secAdmin" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Admin Panel Protection</strong>
+                                                <p>Hide and protect /admin, /wp-admin, /dashboard paths</p>
+                                            </div>
+                                        </div>
+                                        <div class="toggle-option">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="secFileAccess" checked>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            <div class="toggle-info">
+                                                <strong>Sensitive File Protection</strong>
+                                                <p>Block access to .env, .git, config files, and backups</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wizard-nav">
+                                    <button class="btn btn-ghost" onclick="goToWizStep(4)">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-primary" onclick="goToWizStep(6)">
+                                        Continue <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 6: Deploy -->
+                        <div class="wizard-panel" id="wizPanel6" style="display:none;">
+                            <div class="wizard-card">
+                                <div class="wizard-card-header">
+                                    <div class="wizard-icon deploy-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <h2>Review & Deploy</h2>
+                                    <p>Review your configuration and launch your website</p>
+                                </div>
+
+                                <!-- Deployment Summary -->
+                                <div class="deploy-summary" id="deploySummary">
+                                    <div class="summary-grid">
+                                        <div class="summary-item">
+                                            <div class="summary-icon"><i class="fas fa-project-diagram"></i></div>
+                                            <div class="summary-detail">
+                                                <span class="summary-label">Project Name</span>
+                                                <span class="summary-value" id="sumProject">-</span>
+                                            </div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon"><i class="fab fa-github"></i></div>
+                                            <div class="summary-detail">
+                                                <span class="summary-label">Repository</span>
+                                                <span class="summary-value" id="sumRepo">-</span>
+                                            </div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon"><i class="fas fa-code-branch"></i></div>
+                                            <div class="summary-detail">
+                                                <span class="summary-label">Branch</span>
+                                                <span class="summary-value" id="sumBranch">main</span>
+                                            </div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon"><i class="fas fa-globe"></i></div>
+                                            <div class="summary-detail">
+                                                <span class="summary-label">Domain</span>
+                                                <span class="summary-value" id="sumDomain">-</span>
+                                            </div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon"><i class="fas fa-layer-group"></i></div>
+                                            <div class="summary-detail">
+                                                <span class="summary-label">Framework</span>
+                                                <span class="summary-value" id="sumFramework">Static</span>
+                                            </div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon"><i class="fas fa-shield-alt"></i></div>
+                                            <div class="summary-detail">
+                                                <span class="summary-label">Security</span>
+                                                <span class="summary-value" id="sumSecurity">Full Protection</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wizard-nav" id="deployActions">
+                                    <button class="btn btn-ghost" onclick="goToWizStep(5)">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button class="btn btn-success btn-lg" onclick="startDeploy()" id="deployBtn">
+                                        <i class="fas fa-rocket"></i> Deploy Now
+                                    </button>
+                                </div>
+
+                                <!-- Deploy Progress -->
+                                <div id="deployProgress" class="deploy-progress" style="display:none;">
+                                    <div class="progress-header">
+                                        <div class="progress-spinner"></div>
+                                        <h3>Deploying Your Website...</h3>
+                                    </div>
+                                    <div class="progress-bar-wrap">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="progressFill"></div>
+                                        </div>
+                                        <span class="progress-percent" id="progressPercent">0%</span>
+                                    </div>
+                                    <div class="deploy-logs" id="deployLogs">
+                                        <!-- Deploy logs will appear here -->
+                                    </div>
+                                </div>
+
+                                <!-- Deploy Success -->
+                                <div id="deploySuccess" class="deploy-success" style="display:none;">
+                                    <div class="success-animation">
+                                        <div class="success-checkmark">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </div>
+                                    <h3>🎉 Deployment Successful!</h3>
+                                    <p>Your website is now live and protected</p>
+                                    <div class="deployed-url-box">
+                                        <i class="fas fa-globe"></i>
+                                        <a id="deployedUrl" href="#" target="_blank" class="deployed-link"></a>
+                                        <button class="btn btn-ghost btn-xs" onclick="copyDeployedUrl()">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="success-info">
+                                        <div class="info-item">
+                                            <i class="fas fa-lock t-green"></i>
+                                            <span>SSL Active</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-shield-alt t-green"></i>
+                                            <span>Security Enabled</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-check t-green"></i>
+                                            <span>Domain Connected</span>
+                                        </div>
+                                    </div>
+                                    <div class="success-actions">
+                                        <button class="btn btn-primary btn-lg" onclick="window.open(document.getElementById('deployedUrl').href)">
+                                            <i class="fas fa-external-link-alt"></i> Visit Website
+                                        </button>
+                                        <button class="btn btn-ghost btn-lg" onclick="showDashSection('projects')">
+                                            <i class="fas fa-folder"></i> View Projects
+                                        </button>
+                                        <button class="btn btn-ghost btn-lg" onclick="showDashSection('newDeploy'); resetWizard();">
+                                            <i class="fas fa-plus"></i> Deploy Another
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== DOMAINS SECTION ===== -->
+                <div class="dash-section" id="sec-domains" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>Domain Management</h1>
+                            <p class="dash-subtitle">Manage all your custom domains</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="showAddDomainModal()">
+                            <i class="fas fa-plus"></i> Add Domain
+                        </button>
+                    </div>
+                    <div id="domainsList" class="domains-grid">
+                        <div class="empty-state">
+                            <div class="empty-icon">🌐</div>
+                            <h3>No Domains Yet</h3>
+                            <p>Deploy a project with a custom domain to see it here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== SECURITY SECTION ===== -->
+                <div class="dash-section" id="sec-security" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>Security Center</h1>
+                            <p class="dash-subtitle">Monitor and manage security across all projects</p>
+                        </div>
+                    </div>
+
+                    <!-- Security Score -->
+                    <div class="security-overview">
+                        <div class="security-score-card">
+                            <div class="score-circle">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="#00ff88" stroke-width="8" 
+                                            stroke-dasharray="339.3" stroke-dashoffset="33.93" stroke-linecap="round"
+                                            transform="rotate(-90 60 60)" id="scoreCircle"/>
+                                </svg>
+                                <div class="score-inner">
+                                    <span class="score-num" id="secScoreNum">90</span>
+                                    <span class="score-label">/ 100</span>
+                                </div>
+                            </div>
+                            <div class="score-info">
+                                <h3>Security Score</h3>
+                                <p>Your overall security rating across all projects</p>
+                            </div>
+                        </div>
+
+                        <div class="security-quick-stats">
+                            <div class="sec-stat">
+                                <i class="fas fa-shield-alt t-green"></i>
+                                <div>
+                                    <strong id="protectedCount">0</strong>
+                                    <span>Protected Sites</span>
+                                </div>
+                            </div>
+                            <div class="sec-stat">
+                                <i class="fas fa-lock t-green"></i>
+                                <div>
+                                    <strong id="sslCount">0</strong>
+                                    <span>SSL Certificates</span>
+                                </div>
+                            </div>
+                            <div class="sec-stat">
+                                <i class="fas fa-ban t-red"></i>
+                                <div>
+                                    <strong id="threatsBlocked">0</strong>
+                                    <span>Threats Blocked</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Per-project security -->
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <h2><i class="fas fa-list"></i> Project Security Status</h2>
+                        </div>
+                        <div id="securityProjectList" class="security-project-list">
+                            <div class="empty-state">
+                                <div class="empty-icon">🔒</div>
+                                <h3>No Projects</h3>
+                                <p>Deploy a project to configure security</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== VPS SECTION ===== -->
+                <div class="dash-section" id="sec-vps" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>VPS Connection</h1>
+                            <p class="dash-subtitle">Connect your own VPS for enhanced hosting</p>
+                        </div>
+                    </div>
+
+                    <div class="vps-content">
+                        <div class="wizard-card">
+                            <div class="wizard-card-header">
+                                <div class="wizard-icon">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <h2>Connect Your VPS Server</h2>
+                                <p>Link your VPS to deploy websites directly to your own server</p>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-network-wired"></i> VPS IP Address *</label>
+                                    <input type="text" id="vpsIP" class="form-input" placeholder="123.456.789.0">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-plug"></i> SSH Port</label>
+                                    <input type="number" id="vpsPort" class="form-input" value="22" placeholder="22">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user"></i> Username *</label>
+                                    <input type="text" id="vpsUser" class="form-input" placeholder="root">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-key"></i> Auth Method</label>
+                                    <select id="vpsAuthMethod" class="form-input form-select" onchange="toggleVPSAuth()">
+                                        <option value="password">Password</option>
+                                        <option value="key">SSH Key</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="vpsPasswordGroup">
+                                <label><i class="fas fa-lock"></i> Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="vpsPassword" class="form-input" placeholder="••••••••">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('vpsPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group" id="vpsKeyGroup" style="display:none;">
+                                <label><i class="fas fa-key"></i> SSH Private Key</label>
+                                <textarea id="vpsKey" class="form-input form-textarea" rows="6" placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"></textarea>
+                            </div>
+
+                            <div class="vps-features">
+                                <h3><i class="fas fa-cogs"></i> Auto-Configuration</h3>
+                                <div class="toggle-option">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vpsNginx" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <div class="toggle-info">
+                                        <strong>Nginx Reverse Proxy</strong>
+                                        <p>Auto-configure Nginx for your domains</p>
+                                    </div>
+                                </div>
+                                <div class="toggle-option">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vpsSSL" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <div class="toggle-info">
+                                        <strong>Let's Encrypt SSL</strong>
+                                        <p>Auto-provision SSL certificates via Certbot</p>
+                                    </div>
+                                </div>
+                                <div class="toggle-option">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vpsFirewall" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <div class="toggle-info">
+                                        <strong>UFW Firewall</strong>
+                                        <p>Configure firewall rules (allow 80, 443, SSH)</p>
+                                    </div>
+                                </div>
+                                <div class="toggle-option">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vpsFail2ban" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <div class="toggle-info">
+                                        <strong>Fail2Ban</strong>
+                                        <p>Auto-ban IPs with too many failed login attempts</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-full" onclick="connectVPS()" id="connectVPSBtn">
+                                <i class="fas fa-link"></i> Connect VPS
+                            </button>
+
+                            <div id="vpsConnectionStatus" class="vps-status" style="display:none;">
+                                <!-- VPS status will show here -->
+                            </div>
+                        </div>
+
+                        <!-- Connected VPS List -->
+                        <div class="dash-card" style="margin-top:30px;">
+                            <div class="dash-card-header">
+                                <h2><i class="fas fa-server"></i> Connected Servers</h2>
+                            </div>
+                            <div id="vpsList" class="vps-list">
+                                <div class="empty-state">
+                                    <div class="empty-icon">🖥️</div>
+                                    <h3>No VPS Connected</h3>
+                                    <p>Connect a VPS server to get started</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== ANALYTICS SECTION ===== -->
+                <div class="dash-section" id="sec-analytics" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>Analytics</h1>
+                            <p class="dash-subtitle">Monitor your website performance</p>
+                        </div>
+                    </div>
+                    <div class="analytics-content">
+                        <div class="empty-state">
+                            <div class="empty-icon">📊</div>
+                            <h3>Analytics Coming Soon</h3>
+                            <p>Website traffic and performance analytics will be available soon</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== SETTINGS SECTION ===== -->
+                <div class="dash-section" id="sec-settings" style="display:none;">
+                    <div class="dash-header">
+                        <div>
+                            <h1>Account Settings</h1>
+                            <p class="dash-subtitle">Manage your account and API keys</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-content">
+                        <!-- Profile Settings -->
+                        <div class="settings-card">
+                            <div class="settings-card-header">
+                                <h3><i class="fas fa-user-circle"></i> Profile</h3>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Display Name</label>
+                                    <input type="text" id="settingsName" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="settingsEmail" class="form-input" readonly>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="saveProfile()">
+                                <i class="fas fa-save"></i> Save Profile
+                            </button>
+                        </div>
+
+                        <!-- API Keys -->
+                        <div class="settings-card">
+                            <div class="settings-card-header">
+                                <h3><i class="fas fa-key"></i> API Keys & Tokens</h3>
+                                <span class="settings-badge">Required</span>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-database"></i> JSONBin.io Master Key</label>
+                                <div class="password-input">
+                                    <input type="password" id="settingsJsonbinKey" class="form-input" placeholder="$2a$10$...">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('settingsJsonbinKey', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-help">
+                                    <i class="fas fa-info-circle"></i>
+                                    Get your Master Key from <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> → API Keys
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fab fa-github"></i> GitHub Personal Access Token</label>
+                                <div class="password-input">
+                                    <input type="password" id="settingsGHToken" class="form-input" placeholder="ghp_...">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('settingsGHToken', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="saveAPIKeys()">
+                                <i class="fas fa-save"></i> Save API Keys
+                            </button>
+                        </div>
+
+                        <!-- Change Password -->
+                        <div class="settings-card">
+                            <div class="settings-card-header">
+                                <h3><i class="fas fa-lock"></i> Change Password</h3>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" id="currentPassword" class="form-input" placeholder="••••••••">
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" id="newPassword" class="form-input" placeholder="Min 8 characters">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirmNewPassword" class="form-input" placeholder="••••••••">
+                            </div>
+                            <button class="btn btn-primary" onclick="changePassword()">
+                                <i class="fas fa-key"></i> Change Password
+                            </button>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div class="settings-card danger-zone">
+                            <div class="settings-card-header">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                            </div>
+                            <div class="danger-item">
+                                <div>
+                                    <strong>Export Data</strong>
+                                    <p>Download all your project data as JSON</p>
+                                </div>
+                                <button class="btn btn-outline" onclick="exportData()">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                            </div>
+                            <div class="danger-item">
+                                <div>
+                                    <strong>Delete All Projects</strong>
+                                    <p>Permanently delete all projects and deployments</p>
+                                </div>
+                                <button class="btn btn-danger" onclick="deleteAllProjects()">
+                                    <i class="fas fa-trash"></i> Delete All
+                                </button>
+                            </div>
+                            <div class="danger-item">
+                                <div>
+                                    <strong>Delete Account</strong>
+                                    <p>Permanently delete your account and all associated data</p>
+                                </div>
+                                <button class="btn btn-danger" onclick="deleteAccount()">
+                                    <i class="fas fa-user-times"></i> Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </section>
+
+    <!-- ========== PROJECT DETAIL MODAL ========== -->
+    <div class="modal" id="projectModal">
+        <div class="modal-overlay" onclick="closeProjectModal()"></div>
+        <div class="modal-content modal-lg">
+            <button class="modal-close" onclick="closeProjectModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="projectDetailContent">
+                <!-- Project detail will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== CONFIRM DIALOG ========== -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-overlay" onclick="closeConfirm()"></div>
+        <div class="modal-content confirm-modal">
+            <div class="confirm-icon" id="confirmIcon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 id="confirmTitle">Are you sure?</h3>
+            <p id="confirmMessage">This action cannot be undone.</p>
+            <div class="confirm-actions">
+                <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+                <button class="btn btn-danger" id="confirmBtn" onclick="confirmAction()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TOAST CONTAINER ========== -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/github.js"></script>
+    <script src="js/domain.js"></script>
+    <script src="js/security.js"></script>
+    <script src="js/deploy.js"></script>
+    <script src="js/vps.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
