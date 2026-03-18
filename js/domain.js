@@ -588,3 +588,31 @@ function validateDomainForDeploy() {
 
     return true;
 }
+
+// ============================================
+// Override: Update DNS Config Display for GitHub Pages
+// ============================================
+function updateDNSDisplay() {
+    const aValueEl = document.getElementById('dnsAValue');
+    const cnameValueEl = document.getElementById('dnsCnameValue');
+    
+    if (aValueEl) {
+        aValueEl.innerHTML = '185.199.108.153<br>185.199.109.153<br>185.199.110.153<br>185.199.111.153';
+    }
+    if (cnameValueEl && githubUser) {
+        cnameValueEl.textContent = githubUser.login + '.github.io';
+    }
+}
+
+// Override showDomainAvailable to update DNS
+const originalShowDomainAvailable = showDomainAvailable;
+showDomainAvailable = function(domain, message) {
+    originalShowDomainAvailable(domain, message);
+    updateDNSDisplay();
+};
+
+const originalShowDomainAvailableWithWarning = showDomainAvailableWithWarning;
+showDomainAvailableWithWarning = function(domain) {
+    originalShowDomainAvailableWithWarning(domain);
+    updateDNSDisplay();
+};
