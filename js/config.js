@@ -29,10 +29,20 @@ const CONFIG = {
     // ============================================
     // Domain Configuration
     // ============================================
+        // ============================================
+    // Domain Configuration - GitHub Pages IPs
+    // ============================================
     DOMAIN_CHECK_API: 'https://dns.google/resolve',
-    HOSTING_IP: '76.76.21.21',
-    CNAME_TARGET: 'cname.deployhub.dev',
-
+    
+    // GitHub Pages IP Addresses (Real)
+    HOSTING_IPS: [
+        '185.199.108.153',
+        '185.199.109.153',
+        '185.199.110.153',
+        '185.199.111.153'
+    ],
+    HOSTING_IP: '185.199.108.153',
+    CNAME_TARGET: '', // Will be set dynamically to username.github.io
     // ============================================
     // Security Configuration
     // ============================================
