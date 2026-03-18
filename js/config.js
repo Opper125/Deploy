@@ -12,13 +12,13 @@ const CONFIG = {
 
     // Database Bins - TODO: ⬇️ ဒီ BIN IDs တွေကို သင်ဖန်တီးပြီး ထဲ့ပါ
     BINS: {
-        USERS: '',       // ← Users Bin ID
-        PROJECTS: '',    // ← Projects Bin ID
-        DOMAINS: '',     // ← Domains Bin ID
-        VPS: '',         // ← VPS Bin ID
-        DEPLOYMENTS: '', // ← Deployments Bin ID
-        SECURITY: '',    // ← Security Bin ID
-        SESSIONS: '',    // ← Sessions Bin ID
+        USERS: '69baf3ccb7ec241ddc7e5cc9',       // ← Users Bin ID
+        PROJECTS: '69baf3cdc3097a1dd53915f2',    // ← Projects Bin ID
+        DOMAINS: '69baf3cdb7ec241ddc7e5ccf',     // ← Domains Bin ID
+        VPS: '69baf3ceaa77b81da9f835d1',         // ← VPS Bin ID
+        DEPLOYMENTS: '69baf3ceaa77b81da9f835d4', // ← Deployments Bin ID
+        SECURITY: '69baf3cfc3097a1dd53915fc',    // ← Security Bin ID
+        SESSIONS: '69baf3cfc3097a1dd53915ff',    // ← Sessions Bin ID
     },
 
     // ============================================
