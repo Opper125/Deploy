@@ -8,7 +8,7 @@ const CONFIG = {
     // ============================================
     // TODO: ⬇️ ဒီ values တွေကို သင့်ရဲ့ JSONBin.io credentials နဲ့ အစားထိုးပါ
     JSONBIN_BASE_URL: 'https://api.jsonbin.io/v3',
-    JSONBIN_MASTER_KEY: '', // ← သင့်ရဲ့ JSONBin.io Master Key ထဲ့ပါ
+    JSONBIN_MASTER_KEY: '$2a$10$knLbj34a5Xd8aQPpcbew2OzzgLNxz6h65F7Q2TPaPjSXD2p1yC4Wi',
 
     // Database Bins - TODO: ⬇️ ဒီ BIN IDs တွေကို သင်ဖန်တီးပြီး ထဲ့ပါ
     BINS: {
@@ -350,3 +350,40 @@ function closeConfirm() {
 
 console.log(`%c${CONFIG.APP_NAME} v${CONFIG.APP_VERSION}`, 'color: #6c5ce7; font-size: 20px; font-weight: bold;');
 console.log('%cSecure Deployment Platform', 'color: #a29bfe; font-size: 14px;');
+
+// ============================================
+// Suppress Third-Party Errors (Google, Extensions)
+// ============================================
+window.addEventListener('error', function(event) {
+    // Block errors from external scripts (Google, gstatic, extensions)
+    const blockedDomains = [
+        'gstatic.com',
+        'google.com',
+        'googleapis.com',
+        'googletagmanager.com',
+        'chrome-extension://',
+        'moz-extension://',
+        'extensions/'
+    ];
+    
+    const source = event.filename || event.message || '';
+    const isExternal = blockedDomains.some(domain => source.includes(domain));
+    
+    if (isExternal) {
+        event.preventDefault(); // Suppress the error
+        event.stopPropagation();
+        return true;
+    }
+}, true);
+
+window.addEventListener('unhandledrejection', function(event) {
+    const reason = String(event.reason || '');
+    const blockedKeywords = ['sendMessage', 'gstatic', 'google.com', 'extension'];
+    
+    const isExternal = blockedKeywords.some(kw => reason.includes(kw));
+    
+    if (isExternal) {
+        event.preventDefault();
+        return true;
+    }
+});
